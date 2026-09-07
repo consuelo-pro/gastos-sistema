@@ -8,7 +8,7 @@ function formatDate(d) {
 
 export default function Ledger({ transactions }) {
   if (transactions.length === 0) {
-    return <div className="empty-state">Todavía no registraste nada. Mandá un mensaje por WhatsApp para empezar.</div>;
+    return <div className="empty-state">Todavía no registraste nada. Escribí tu primer movimiento arriba.</div>;
   }
 
   return (

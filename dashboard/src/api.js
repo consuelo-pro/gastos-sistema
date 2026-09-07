@@ -20,7 +20,10 @@ async function request(path, options = {}) {
     return null;
   }
 
-  if (!res.ok) throw new Error(`Error en ${path}: ${res.status}`);
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.error || `Error en ${path}: ${res.status}`);
+  }
   if (res.status === 204) return null;
   return res.json();
 }
@@ -35,6 +38,10 @@ export async function login(password) {
   const data = await res.json();
   localStorage.setItem('token', data.token);
   return data.token;
+}
+
+export function addTransaction(text) {
+  return request('/api/transactions', { method: 'POST', body: JSON.stringify({ text }) });
 }
 
 export function getTransactions(params = {}) {

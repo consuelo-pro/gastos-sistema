@@ -3,19 +3,24 @@ import { getSummary, getTransactions } from '../api.js';
 import Balance from './Balance.jsx';
 import CategoryBreakdown from './CategoryBreakdown.jsx';
 import Ledger from './Ledger.jsx';
+import QuickAdd from './QuickAdd.jsx';
 
 export default function Dashboard() {
   const [summary, setSummary] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    Promise.all([getSummary(), getTransactions({ limit: 30 })])
-      .then(([summaryData, txData]) => {
+  function reload() {
+    return Promise.all([getSummary(), getTransactions({ limit: 30 })]).then(
+      ([summaryData, txData]) => {
         setSummary(summaryData);
         setTransactions(txData);
-      })
-      .finally(() => setLoading(false));
+      }
+    );
+  }
+
+  useEffect(() => {
+    reload().finally(() => setLoading(false));
   }, []);
 
   const today = new Date().toLocaleDateString('es-AR', {
@@ -30,6 +35,8 @@ export default function Dashboard() {
         <h1>Mis cuentas</h1>
         <div className="date">{today}</div>
       </div>
+
+      <QuickAdd onAdded={reload} />
 
       {loading && <p>Cargando…</p>}
 

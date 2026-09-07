@@ -4,7 +4,6 @@ import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import { insertTransaction, listTransactions, getSummary, deleteTransaction } from './db.js';
 import { parseExpenseMessage } from './claudeParser.js';
-import { sendWhatsAppMessage, extractIncomingMessage } from './whatsapp.js';
 
 const app = express();
 app.use(cors());
@@ -34,41 +33,23 @@ app.post('/api/login', (req, res) => {
   res.json({ token });
 });
 
-// ---------- Webhook de WhatsApp ----------
+// ---------- API para el dashboard ----------
 
-// Meta llama a esto una vez para verificar que el webhook es tuyo
-app.get('/webhook', (req, res) => {
-  const mode = req.query['hub.mode'];
-  const token = req.query['hub.verify_token'];
-  const challenge = req.query['hub.challenge'];
-
-  if (mode === 'subscribe' && token === process.env.WHATSAPP_VERIFY_TOKEN) {
-    res.status(200).send(challenge);
-  } else {
-    res.sendStatus(403);
+// Carga por texto libre: "gasté 5000 en super" → Claude lo interpreta y se guarda.
+app.post('/api/transactions', requireAuth, async (req, res) => {
+  const { text } = req.body;
+  if (!text || !text.trim()) {
+    return res.status(400).json({ error: 'Falta el texto del movimiento' });
   }
-});
-
-// Meta manda acá cada mensaje entrante
-app.post('/webhook', async (req, res) => {
-  // Le respondemos rápido a Meta para que no reintente; procesamos después.
-  res.sendStatus(200);
-
-  const incoming = extractIncomingMessage(req.body);
-  if (!incoming) return;
-
-  const { from, text } = incoming;
 
   try {
     const todayISO = new Date().toISOString().slice(0, 10);
     const parsed = await parseExpenseMessage(text, todayISO);
 
     if (!parsed.type || !parsed.amount) {
-      await sendWhatsAppMessage(
-        from,
-        'No entendí que fuera un gasto o ingreso. Probá algo como "gasté 5000 en super" o "cobré 80000 de tal cliente".'
-      );
-      return;
+      return res.status(422).json({
+        error: 'No entendí que fuera un gasto o ingreso. Probá algo como "gasté 5000 en super" o "cobré 80000 de tal cliente".',
+      });
     }
 
     const saved = await insertTransaction({
@@ -78,21 +59,15 @@ app.post('/webhook', async (req, res) => {
       description: parsed.description || null,
       originalMessage: text,
       occurredOn: parsed.occurred_on || null,
-      sourcePhone: from,
+      sourcePhone: null,
     });
 
-    const fecha = new Date(saved.occurred_on).toLocaleDateString('es-AR');
-    await sendWhatsAppMessage(
-      from,
-      `Anotado: ${saved.type} $${Number(saved.amount).toLocaleString('es-AR')} en ${saved.category}, ${fecha}.`
-    );
+    res.status(201).json(saved);
   } catch (err) {
-    console.error('Error procesando mensaje entrante:', err);
-    await sendWhatsAppMessage(from, 'Hubo un error anotando eso. Probá de nuevo en un rato.');
+    console.error('Error procesando movimiento:', err);
+    res.status(500).json({ error: 'Hubo un error anotando eso. Probá de nuevo en un rato.' });
   }
 });
-
-// ---------- API para el dashboard ----------
 
 app.get('/api/transactions', requireAuth, async (req, res) => {
   const { from, to, type, category } = req.query;

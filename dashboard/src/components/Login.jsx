@@ -35,7 +35,7 @@ export default function Login({ onSuccess }) {
         <button type="submit" disabled={loading}>
           {loading ? 'Entrando…' : 'Entrar'}
         </button>
-        <p className="hint">Mandá tus gastos e ingresos por WhatsApp y aparecen acá.</p>
+        <p className="hint">Escribí tus gastos e ingresos acá adentro y quedan anotados.</p>
       </form>
     </div>
   );

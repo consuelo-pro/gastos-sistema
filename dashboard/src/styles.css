@@ -184,6 +184,57 @@ section h2 {
   border-bottom: 1px solid var(--paper-line);
 }
 
+/* ---------- Quick add ---------- */
+
+.quick-add {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--ink);
+  flex-wrap: wrap;
+}
+
+.quick-add input {
+  flex: 1;
+  min-width: 220px;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid var(--paper-line);
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.quick-add input:focus {
+  outline: none;
+  border-bottom: 1px solid var(--ink);
+}
+
+.quick-add button {
+  padding: 10px 18px;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.quick-add button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.quick-add .error {
+  flex-basis: 100%;
+  color: var(--expense);
+  font-size: 13px;
+}
+
 /* ---------- Login ---------- */
 
 .login-screen {

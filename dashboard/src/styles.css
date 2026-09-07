@@ -1,0 +1,250 @@
+:root {
+  --paper: #f7f5f0;
+  --paper-line: #e2ddcf;
+  --ink: #1f2a24;
+  --ink-soft: #6b6558;
+  --income: #4b6b53;
+  --income-soft: #e7ede6;
+  --expense: #7a3b36;
+  --expense-soft: #f1e6e3;
+
+  --font-display: 'Fraunces', serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+}
+
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 14px;
+  margin-bottom: 40px;
+}
+
+.masthead h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 26px;
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+
+.masthead .date {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.balance-block {
+  margin-bottom: 44px;
+}
+
+.balance-label {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.balance-figure {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.balance-sub {
+  display: flex;
+  gap: 28px;
+  margin-top: 16px;
+}
+
+.balance-sub div {
+  font-family: var(--font-mono);
+  font-size: 14px;
+}
+
+.balance-sub .tag {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.tag.income {
+  background: var(--income);
+}
+.tag.expense {
+  background: var(--expense);
+}
+
+section {
+  margin-bottom: 44px;
+}
+
+section h2 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: none;
+  color: var(--ink-soft);
+  margin: 0 0 16px;
+}
+
+.category-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--paper-line);
+}
+
+.category-row .name {
+  flex: 0 0 140px;
+  font-size: 14px;
+}
+
+.category-row .bar-track {
+  flex: 1;
+  height: 6px;
+  background: var(--paper-line);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.category-row .bar-fill {
+  height: 100%;
+}
+
+.category-row .amount {
+  flex: 0 0 100px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.ledger-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 110px;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--paper-line);
+  font-size: 14px;
+  align-items: baseline;
+}
+
+.ledger-row .date-col {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.ledger-row .desc-col .category {
+  color: var(--ink-soft);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.ledger-row .amount-col {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+.ledger-row .amount-col.income {
+  color: var(--income);
+}
+.ledger-row .amount-col.expense {
+  color: var(--expense);
+}
+
+.empty-state {
+  padding: 32px 0;
+  color: var(--ink-soft);
+  font-size: 14px;
+  border-bottom: 1px solid var(--paper-line);
+}
+
+/* ---------- Login ---------- */
+
+.login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 320px;
+  padding: 0 24px;
+}
+
+.login-card h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 500;
+  margin: 0 0 28px;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  border-bottom: 1px solid var(--ink);
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--ink);
+  margin-bottom: 20px;
+}
+
+.login-card input:focus {
+  outline: none;
+  border-bottom: 2px solid var(--ink);
+}
+
+.login-card button {
+  width: 100%;
+  padding: 12px 0;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.login-card .error {
+  color: var(--expense);
+  font-size: 13px;
+  margin-top: -8px;
+  margin-bottom: 16px;
+}
+
+.login-card .hint {
+  margin-top: 24px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}

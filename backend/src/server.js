@@ -88,6 +88,10 @@ app.delete('/api/transactions/:id', requireAuth, async (req, res) => {
 
 app.get('/', (req, res) => res.send('Sistema de gastos: backend funcionando.'));
 
-app.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto ${PORT}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Servidor escuchando en el puerto ${PORT}`);
+  });
+}
+
+export default app;

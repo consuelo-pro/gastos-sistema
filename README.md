@@ -19,19 +19,18 @@ dashboard/   → tu web privada para escribir y ver los movimientos (login + gr�
 2. Andá a **SQL Editor** → pegá el contenido de `backend/db/schema.sql` → ejecutar.
 3. Andá a **Project Settings → Database** y copiá el "Connection string" (modo *URI*). Eso es tu `DATABASE_URL`.
 
-### 2. Backend — desplegarlo (Render, gratis)
+### 2. Backend — desplegarlo (Vercel, gratis)
 
-1. Subí la carpeta `backend/` a un repo de GitHub (o el mismo repo, apuntando a esa subcarpeta).
-2. En render.com, creá un **Web Service** apuntando a ese repo.
-3. Root directory: `backend` — Build command: `npm install` — Start command: `npm start`.
-4. Cargá las variables de entorno (mirá `backend/.env.example`) en la sección *Environment* de Render.
-5. Una vez desplegado, te da una URL como `https://tu-app.onrender.com`.
+1. En vercel.com, importá el repo `gastos-sistema` como un proyecto nuevo, con Root directory: `backend`.
+2. Cargá las variables de entorno (mirá `backend/.env.example`) en *Settings → Environment Variables*.
+3. Deploy. Te da una URL como `https://gastos-backend.vercel.app` — esa es tu `VITE_API_URL` para el paso siguiente.
 
-### 3. Dashboard — desplegarlo (Vercel o Netlify, gratis)
+### 3. Dashboard — desplegarlo (Vercel, gratis)
 
-1. En Vercel, importá el repo, seteá Root directory: `dashboard` y la variable `VITE_API_URL` con la URL del backend (paso anterior).
-2. Deploy. Te da tu URL propia, ej: `https://tus-cuentas.vercel.app`.
-3. Entrás con la contraseña que pusiste en `ADMIN_PASSWORD`.
+1. Importá el mismo repo otra vez como un segundo proyecto, con Root directory: `dashboard`.
+2. Seteá la variable `VITE_API_URL` con la URL del backend (paso anterior).
+3. Deploy. Te da tu URL propia, ej: `https://tus-cuentas.vercel.app`.
+4. Entrás con la contraseña que pusiste en `ADMIN_PASSWORD`.
 
 ## Probarlo antes de desplegar (en tu compu)
 
